@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class CDataSimple {
 
+    private static final String OUTPUT_TEXT_LOG = "HELLO WORLD CAMEL! IN SPRING BOOT";
+    private static final int TIMER_SECONDS = 10_000;
+
     /**
      * @return
      * @throws Exception
@@ -15,7 +18,7 @@ public class CDataSimple {
         try(CamelContext camelContext = new DefaultCamelContext()){
             camelContext.addRoutes(basicRoute());
             camelContext.start();
-            Thread.sleep(10_000); // 10 seconds
+            Thread.sleep(TIMER_SECONDS); // 10 seconds
         }
         return null;
     }
@@ -25,7 +28,7 @@ public class CDataSimple {
         return new RouteBuilder() {
             @Override
             public void configure() throws Exception {
-                from("timer:foo").log("HELLO WORLD CAMEL! IN SPRING BOOT");
+                from("timer:foo").log(OUTPUT_TEXT_LOG);
             }
         };
     }

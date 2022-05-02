@@ -1,7 +1,9 @@
 package bus.artemrogov.config;
 
 import bus.artemrogov.batch.DBWriter;
+import bus.artemrogov.batch.NotifyCompledBatch;
 import bus.artemrogov.batch.ProcessorUser;
+import bus.artemrogov.batch.StartNotifyListener;
 import bus.artemrogov.entity.User;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -34,9 +36,11 @@ public class SpringBatchConfig {
     private String fileInput;
 
     @Bean
-    public Job importUserJob(Step step1) {
+    public Job importUserJob(StartNotifyListener listenerStart, NotifyCompledBatch listenerEnd, Step step1) {
         return jobBuilderFactory.get("importUserJob")
                 .incrementer(new RunIdIncrementer())
+                .listener(listenerStart)
+                .listener(listenerEnd)
                 .flow(step1)
                 .end()
                 .build();

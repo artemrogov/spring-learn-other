@@ -40,8 +40,12 @@ public class UserAccountService {
             );
 
         }
-
         this.userRepository.save(account);
         return "Account for " + account.getFirstName() + "Added!";
+    }
+
+
+    public User createAccount(User profile) {
+        return this.userRepository.save(profile);
     }
 }

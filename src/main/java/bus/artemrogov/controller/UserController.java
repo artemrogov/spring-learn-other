@@ -1,9 +1,9 @@
 package bus.artemrogov.controller;
 
-
 import bus.artemrogov.entity.User;
 import bus.artemrogov.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +17,18 @@ public class UserController {
     private UserAccountService userAccountService;
 
     @PostMapping(value = "/addUser")
-    public Object addUser(@RequestBody User user){
-        try {
-            return ResponseEntity.ok(this.userAccountService.addUserAccount(user));
-        }catch (ConstraintViolationException eOperation){
-            return ResponseEntity.status(422);
+    public ResponseEntity<String> addUser(@RequestBody User user){
+       try{
+            return new ResponseEntity<>(this.userAccountService.addUserAccount(user), HttpStatus.CREATED);
+        }catch (ConstraintViolationException validationErrorOperation){
+            return new ResponseEntity<>(validationErrorOperation.getMessage(),HttpStatus.BAD_REQUEST);
         }
+    }
+
+
+    @PostMapping(value = "/create-profile")
+    public ResponseEntity<User> createAccount(@RequestBody User user){
+        return new ResponseEntity<>(this.userAccountService.createAccount(user), HttpStatus.CREATED);
     }
 
 }

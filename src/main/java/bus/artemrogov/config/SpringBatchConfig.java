@@ -61,7 +61,7 @@ public class SpringBatchConfig {
     @Bean
     public Step step1(DBWriter writer) {
         return stepBuilderFactory.get("step1")
-                .<User, User> chunk(10)
+                .<User, User> chunk(300)
                 .reader(reader())
                 .processor(processorUser())
                 .writer(writer)

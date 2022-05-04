@@ -30,5 +30,4 @@ public class UserController {
     public ResponseEntity<User> createAccount(@RequestBody User user){
         return new ResponseEntity<>(this.userAccountService.createAccount(user), HttpStatus.CREATED);
     }
-
 }

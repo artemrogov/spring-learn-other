@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -25,13 +26,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.sessionManagement()
-                .disable()
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .httpBasic();
+       http.sessionManagement()
+               .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // заблокировать использование сессии
+               .and()
+               .authorizeRequests()
+               .antMatchers("/users/**")
+               .hasRole("ADMIN")
+               .and()
+               .authorizeRequests()
+               .antMatchers("/sec-route")
+               .hasRole("ADMIN")
+               .anyRequest()
+               .authenticated()
+               .and()
+               .httpBasic();
     }
 
     @Bean

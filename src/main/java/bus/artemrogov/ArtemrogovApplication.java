@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @SpringBootApplication
-@EnableScheduling
+//@EnableScheduling
 public class ArtemrogovApplication {
 
 	public static void main(String[] args) {

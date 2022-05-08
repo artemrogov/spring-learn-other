@@ -70,7 +70,7 @@ public class UserDetailsProfile implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override

@@ -8,7 +8,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @SpringBootApplication
 //@EnableScheduling
-public class ArtemrogovApplication {
+public class ArtemrogovApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(ArtemrogovApplication.class, args);

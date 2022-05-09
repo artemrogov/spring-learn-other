@@ -4,9 +4,7 @@ import bus.artemrogov.entity.Comment;
 import bus.artemrogov.entity.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 import java.util.Collection;
-import java.util.Optional;
 
 public interface IBlogService {
 
@@ -20,11 +18,13 @@ public interface IBlogService {
     Post             createPost(Post post);
     Post             updatePost(Long id, Post post);
 
-    Boolean          detachTags(Long[] ids);
-    Boolean          attachTags(Long[] ids);
+    Collection<Long>   syncTags(Long idPost,Long[] ids);
 
     Page<Comment>    getCommentsByPostId(Long postId, Pageable pageable);
 
     Comment          createCommentByIdPost(Long postId,String body);
+
+
+    Comment           updateCommentById(Long id,String body);
 
 }

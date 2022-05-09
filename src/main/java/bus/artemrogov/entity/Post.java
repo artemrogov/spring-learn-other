@@ -37,6 +37,7 @@ public class Post {
 
 
     @ManyToMany(cascade = {
+            ////CascadeType.PERSIST,
             CascadeType.MERGE,
             CascadeType.DETACH
     },

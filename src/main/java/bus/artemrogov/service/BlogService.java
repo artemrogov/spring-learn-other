@@ -5,6 +5,7 @@ import bus.artemrogov.entity.Comment;
 import bus.artemrogov.entity.Post;
 import bus.artemrogov.repository.CommentRepository;
 import bus.artemrogov.repository.PostRepository;
+import bus.artemrogov.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,10 @@ public class BlogService implements IBlogService{
 
     @Autowired
     private CommentRepository commentRepository;
+
+
+    @Autowired
+    private TagRepository tagRepository;
 
 
     @Override
@@ -100,19 +105,35 @@ public class BlogService implements IBlogService{
                 post.setSlug(postEdit.getSlug());
             }
 
+            if(post.getTags() == null || post.getTags().isEmpty()){
+                post.setTags(postEdit.getTags());
+            }
+
             return this.postRepository.save(post);
 
         }).orElseThrow(IllegalArgumentException::new);
     }
 
-    @Override
-    public Boolean detachTags(Long[] ids) {
-        return null;
-    }
 
-    @Override
-    public Boolean attachTags(Long[] ids) {
-        return null;
+    public Collection<Long> syncTags(Long idPost, Long[] ids){
+
+        return this.tagRepository.findAllById(Arrays.asList(ids)).stream().map(tag -> {
+
+            boolean exists = this.postRepository.existsById(idPost);
+
+            if (exists){
+
+                Post postSaved = postRepository.findById(idPost).orElseThrow();
+
+                postSaved.setTags(List.of(tag));
+                tag.setPosts(List.of(postSaved));
+                postRepository.save(postSaved);
+                return tag.getId();
+            }
+
+            return null;
+
+        }).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     @Override
@@ -132,4 +153,13 @@ public class BlogService implements IBlogService{
 
         }).orElseThrow(IllegalArgumentException::new);
     }
+
+    public Comment updateCommentById(Long id,String body){
+        return this.commentRepository.findById(id).map(comment -> {
+             comment.setId(id);
+             comment.setContent(body);
+             return this.commentRepository.save(comment);
+        }).orElseThrow(IllegalArgumentException::new);
+    }
+
 }

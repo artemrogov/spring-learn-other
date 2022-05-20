@@ -1,29 +1,14 @@
 package bus.artemrogov;
 
-import bus.artemrogov.entity.Comment;
-import bus.artemrogov.entity.Post;
-import bus.artemrogov.entity.Tag;
-import bus.artemrogov.repository.PostRepository;
-import bus.artemrogov.repository.TagRepository;
-import bus.artemrogov.service.IBlogService;
-import org.hibernate.Session;
-import org.hibernate.boot.SessionFactoryBuilder;
-import org.junit.Assert;
+import bus.artemrogov.domain.repository.PostRepository;
+import bus.artemrogov.domain.repository.TagRepository;
+import bus.artemrogov.domain.service.IBlogService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.orm.hibernate5.HibernateOperations;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.persistence.EntityManager;
-import java.util.Collection;
-import java.util.List;
 
 
 @RunWith(SpringRunner.class)
